@@ -1,0 +1,10 @@
+https://www.websequencediagrams.com/
+
+title New note
+
+Client->Server: POST Request
+note right of Server: Server adds new note from req.body to array of note objects
+Server->Client: Redirect response (status 302)
+Client->Server: New GET request for HTML
+Server->Client: HTML code with new note rendered
+note over Client: 
