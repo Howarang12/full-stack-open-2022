@@ -1,0 +1,6 @@
+title New note
+
+Client->Server: POST Request
+note right of Server: Server adds new note from req.body to array of note objects
+Server->Client: Execute JavaScript code fetched from server
+note over Client: 

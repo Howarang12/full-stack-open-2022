@@ -1,0 +1,8 @@
+title Single Page Application
+Client->Server: GET Request (html)
+Server->Client: HTML Code
+Client->Server: GET Request (css)
+Server->Client: CSS Code
+Client->Server: GET Request (JavaScript)
+Server->Client: JS Code
+note over Client:HTML manipulated by JS
