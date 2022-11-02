@@ -12,29 +12,33 @@ const Button = ({handleClick, text}) => {
 
 const Stat = ({text, value}) => {
   return(
-    <div>
-      <p>{text} {value}</p>
-    </div>
+      <tr>
+        <td>
+          {text} {value}
+        </td>
+      </tr>
   )
 }
 
 const Statistics = ({clicks}) => {
   const total = clicks.good + clicks.bad + clicks.neutral 
   const average = (clicks.good - clicks.bad) / total
-  const positive = clicks.good / total
+  const positive = clicks.good / total * 100
 
   return(
     <div>
        {total === 0 ? 
        <p>No feedback given</p> :
-        <div>
-          <Stat text='good' value={clicks.good}/>
-          <Stat text='neutral' value={clicks.neutral}/>
-          <Stat text='bad' value={clicks.bad}/>
-          <Stat text='all' value={total}/>
-          <Stat text='average' value={average}/>
-          <Stat text='postive' value={positive} />
-        </div>
+        <table>
+          <tbody>
+            <Stat text='good' value={clicks.good}/>
+            <Stat text='neutral' value={clicks.neutral}/>
+            <Stat text='bad' value={clicks.bad}/>
+            <Stat text='all' value={total}/>
+            <Stat text='average' value={average}/>
+            <Stat text='postive' value={positive + '%'} />
+          </tbody>
+        </table>
       }
     </div>
   )
