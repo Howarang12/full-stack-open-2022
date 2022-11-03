@@ -4,14 +4,15 @@ const Header = ({text}) => <h1>{text}</h1>
 
 const Button = ({handleClick, text}) => <button onClick={handleClick}>{text}</button>
 
-const Anecdote = ({anecdote, vote}) => {
+const Anecdote = ({anecdote, votes}) => {
   return(
     <div>
       <p>{anecdote}</p>
-      <p>has {vote} votes</p>
+      <p>has {votes} votes</p>
     </div>
   )
 }
+
 
 const MostVoted = ({anecdotes, votes}) => {
   const highestVote = Math.max(...votes)
@@ -58,7 +59,7 @@ const App = () => {
   return (
     <div>
       <Header text='anecdote of the day'/>
-      <Anecdote anecdote={anecdotes[selected]} vote={votes[selected]}/>
+      <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]}/>
       <Button handleClick={handleVote} text='vote' />
       <Button handleClick={handleClick} text='next anecdote' />
 
