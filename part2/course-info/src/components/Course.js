@@ -1,16 +1,18 @@
 import React from 'react'
+import Name from './Name'
 import Part from './Part'
+import Total from './Total'
 
 const Course = ({course}) => {
   const total = course.parts.reduce((a, c) => a + c.exercises, 0)
 
   return (
     <div>
-      <h1>{course.name}</h1>
+      <Name name={course.name} />
       {course.parts.map(part => 
         <Part key={part.id} part={part}/>
       )}  
-      <h3>total of {total} exercises</h3>
+      <Total total={total} />
     </div>
   )
 }
