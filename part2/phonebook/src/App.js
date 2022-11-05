@@ -9,8 +9,13 @@ const App = () => {
 
   const handleClick = (e) => {
     e.preventDefault()
-    setPersons([...persons, {name: newName}])
-    setNewName('')
+    if(persons.some(person => person.name === newName)){
+      alert(`${newName} is already added to the phonebook`)
+    } else {
+      setPersons([...persons, {name: newName}])
+      setNewName('')
+    }
+    
   }
 
   return (
@@ -18,7 +23,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <form>
         <div>
-          name: <input onChange={(e) => setNewName(e.target.value)}/>
+          name: <input value={newName} onChange={(e) => setNewName(e.target.value)}/>
         </div>
         <div>
           <button type="submit" onClick={handleClick}>add</button>
