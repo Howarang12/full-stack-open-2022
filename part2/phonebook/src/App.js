@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Person from './components/Person'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import List from './components/List'
@@ -43,7 +42,6 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      {/* <input value={filter} onChange={(e) => setFilter(e.target.value)}/> */}
       <Filter 
         value={filter} 
         onChange={handleFilterChange}
