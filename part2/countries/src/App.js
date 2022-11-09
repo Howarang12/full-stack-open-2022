@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import CountryInfo from './components/CountryInfo'
+import CountryItem from './components/CountryItem'
+import CountryForm from './components/CountryForm'
 
 function App() {
   const [searchCountries, setSearchCountries] = useState('')
@@ -32,14 +34,11 @@ function App() {
   
   return (
     <div className="App">
-      <form>
-        <label>find countries </label>
-        <input  value={searchCountries} onChange={handleSearchCountries}/>
-      </form>
+      <CountryForm value={searchCountries} onChange={handleSearchCountries} />
 
       {filteredCountries.length > 10 && <p>Too many matches, be more specific</p>}
 
-      {filteredCountries.length > 1 && filteredCountries.length <10 && filteredCountries.map(country => <p>{country.name.common}</p>)}
+      {filteredCountries.length > 1 && filteredCountries.length <10 && filteredCountries.map(country => <CountryItem country={country} />)}
       
       {filteredCountries.length === 1 && <CountryInfo country={filteredCountries[0]}/>}
     </div>
