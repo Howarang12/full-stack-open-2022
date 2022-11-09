@@ -38,7 +38,7 @@ function App() {
 
       {filteredCountries.length > 10 && <p>Too many matches, be more specific</p>}
 
-      {filteredCountries.length > 1 && filteredCountries.length <10 && filteredCountries.map(country => <CountryItem country={country} />)}
+      {filteredCountries.length > 1 && filteredCountries.length <10 && filteredCountries.map(country => <CountryItem key={filteredCountries.indexOf(country)} country={country} />)}
       
       {filteredCountries.length === 1 && <CountryInfo country={filteredCountries[0]}/>}
     </div>
