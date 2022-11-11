@@ -23,14 +23,19 @@ const App = () => {
       const person = persons.find(p => p.name === newName)
       const updatedPerson = {...person, number: newNumber}
 
-      phonebookService
-        .update(person.id, updatedPerson)
-        .then(returnedPerson => {
-          setPersons(persons.map(p => p.name !== newName ? p : returnedPerson))
-          setNewName('')
-          setNewNumber('')
-        })
-
+      if(window.confirm(`${person.name} is already added to the phonebook, replace the old number with the new one?`)){
+        phonebookService
+          .update(person.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.name !== newName ? p : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      } else {
+        setNewName('')
+        setNewNumber('')
+      }
+      
     } else { //create new person if name does not exist
 
       const newPerson = {name: newName, number: newNumber}
@@ -47,12 +52,16 @@ const App = () => {
   }
 
   const handleDelete = (id) => {
-    phonebookService
-      .deletePerson(id)
-      .then(deletedPerson => {
-        setPersons(persons.filter(p => p.id !== id))
-      })
-      .catch(err => console.log(err))
+    const person = persons.find(p => p.id === id)
+    if(window.confirm(`Do you want to delete ${person.name}?`)){
+      phonebookService
+        .deletePerson(id)
+        .then(deletedPerson => {
+          setPersons(persons.filter(p => p.id !== id))
+        })
+        .catch(err => console.log(err))
+    }
+    
   }
 
   const handleNameChange = (event) => {
