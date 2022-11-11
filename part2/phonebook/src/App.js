@@ -19,9 +19,19 @@ const App = () => {
 
   const handleFormSubmission = (e) => {
     e.preventDefault()
-    if(persons.some(person => person.name === newName)){
-      alert(`${newName} is already added to the phonebook`)
-    } else {
+    if(persons.some(person => person.name === newName)){ //update phone number if name exists
+      const person = persons.find(p => p.name === newName)
+      const updatedPerson = {...person, number: newNumber}
+
+      phonebookService
+        .update(person.id, updatedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(p => p.name !== newName ? p : returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+
+    } else { //create new person if name does not exist
 
       const newPerson = {name: newName, number: newNumber}
 
@@ -34,6 +44,15 @@ const App = () => {
         })
         .catch(err => console.log(err))
     }
+  }
+
+  const handleDelete = (id) => {
+    phonebookService
+      .deletePerson(id)
+      .then(deletedPerson => {
+        setPersons(persons.filter(p => p.id !== id))
+      })
+      .catch(err => console.log(err))
   }
 
   const handleNameChange = (event) => {
@@ -65,7 +84,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <List persons={persons} />
+      <List persons={persons} handleDelete={handleDelete}/>
     </div>
   )
 }
