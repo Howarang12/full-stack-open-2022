@@ -4,12 +4,15 @@ import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import List from './components/List'
 import phonebookService from './services/phonebook'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
+  const [success, setSuccess] = useState(true)
 
   useEffect(() => {
     phonebookService
@@ -30,6 +33,10 @@ const App = () => {
             setPersons(persons.map(p => p.name !== newName ? p : returnedPerson))
             setNewName('')
             setNewNumber('')
+            setMessage(`${person.name}'s phone number has been updated`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
       } else {
         setNewName('')
@@ -46,6 +53,10 @@ const App = () => {
           setPersons([...persons, newPerson])
           setNewName('')
           setNewNumber('')
+          setMessage(`Added ${newPerson.name}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
         })
         .catch(err => console.log(err))
     }
@@ -59,7 +70,14 @@ const App = () => {
         .then(deletedPerson => {
           setPersons(persons.filter(p => p.id !== id))
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          setMessage(`Information of ${person.name} has already been removed from the server`)
+          setSuccess(false)
+          setTimeout(() => {
+            setMessage(null)
+            setSuccess(true)
+          }, 5000)
+        })
     }
     
   }
@@ -81,6 +99,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} success={success}/>
       <Filter 
         value={filter} 
         onChange={handleFilterChange}
