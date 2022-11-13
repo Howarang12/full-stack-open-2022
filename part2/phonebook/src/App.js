@@ -76,6 +76,7 @@ const App = () => {
           setTimeout(() => {
             setMessage(null)
             setSuccess(true)
+            window.location.reload(false)
           }, 5000)
         })
     }
