@@ -23,7 +23,8 @@ morgan.token('body', req => {
 app.use(express.json())
 // app.use(requestLogger)
 // app.use(unknownEndpoint)
-app.use(morgan(':method :url :status :response-time[digits] - :total-time[digits] ms :body'))
+app.use(morgan('tiny'))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
   { 
