@@ -3,7 +3,9 @@ const app = express()
 
 const PORT = 3001
 
-let data = [
+app.use(express.json())
+
+let persons = [
   { 
     "id": 1,
     "name": "Arto Hellas", 
@@ -31,12 +33,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/api/persons', (req, res) => {
-  res.json(data)
+  res.json(persons)
 })
 
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
-  const person = data.find(person => person.id === id)
+  const person = persons.find(person => person.id === id)
 
   if(person) {
     res.json(person)
@@ -48,15 +50,37 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.get('/info', (req, res) => {
   res.send(`
-    <p> Phonebook has info for ${data.length} people </p>
+    <p> Phonebook has info for ${persons.length} people </p>
     <p> ${Date(Date.now())} </p>
   `)
 })
 
 app.delete('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
-  data = data.filter(person => person.id !== id)
+  persons = persons.filter(person => person.id !== id)
   res.status(204).end()
+})
+
+app.post('/api/persons', (req, res) => {
+  const body = req.body
+  console.log(body)
+
+  if(!body.name || !body.number){
+    return res.status(400).json({err: 'name or number cannot be empty'})
+  }
+
+  if(persons.find(person => person.name === body.name)){
+    return res.status(400).json({err: 'name already exists'})
+  }
+
+  const person = {
+   name: body.name,
+   number: body.number,
+   id: Math.floor(Math.random() * 10000)
+  }
+
+  persons = [...persons, person]
+  res.json(person)
 })
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
