@@ -70,6 +70,8 @@ app.post('/api/notes', (req, res) => {
     id: generateId(),
   }
 
+  console.log(note.content)
+
   notes = notes.concat(note)
 
   res.json(note)
