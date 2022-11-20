@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -7,7 +8,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
-const url = `mongodb+srv://Howarang:hw122696@cluster0.5ayq4vq.mongodb.net/noteApp?retryWrites=true&w=majority`
+const url = process.env.MONGO_URI
 
 mongoose.connect(url)
 
