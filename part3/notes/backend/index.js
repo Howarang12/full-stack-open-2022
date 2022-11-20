@@ -1,39 +1,62 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const mongoose = require('mongoose')
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static('build'))
 
+const url = `mongodb+srv://Howarang:hw122696@cluster0.5ayq4vq.mongodb.net/noteApp?retryWrites=true&w=majority`
 
-let notes = [
-  {
-    id: 1,
-    content: "HTML is easy",
-    date: "2022-05-30T17:30:31.098Z",
-    important: true
-  },
-  {
-    id: 2,
-    content: "Browser can execute only Javascript",
-    date: "2022-05-30T18:39:34.091Z",
-    important: false
-  },
-  {
-    id: 3,
-    content: "GET and POST are the most important methods of HTTP protocol",
-    date: "2022-05-30T19:20:14.298Z",
-    important: true
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  date: Date,
+  important: Boolean,
+})
+
+noteSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   }
-]
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
+
+// let notes = [
+//   {
+//     id: 1,
+//     content: "HTML is easy",
+//     date: "2022-05-30T17:30:31.098Z",
+//     important: true
+//   },
+//   {
+//     id: 2,
+//     content: "Browser can execute only Javascript",
+//     date: "2022-05-30T18:39:34.091Z",
+//     important: false
+//   },
+//   {
+//     id: 3,
+//     content: "GET and POST are the most important methods of HTTP protocol",
+//     date: "2022-05-30T19:20:14.298Z",
+//     important: true
+//   }
+// ]
 
 app.get('/', (req, res) => {
   res.send('Hello World')
 })
 
-app.get('/api/notes', (req, res) => {
-  res.json(notes)
+app.get('/api/notes', (request, response) => {
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (req, res) => {
